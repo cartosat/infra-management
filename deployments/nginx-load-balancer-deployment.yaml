@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-load-balancer
+spec:
+  replicas: 1  # You can adjust the number of replicas based on your requirements
+  selector:
+    matchLabels:
+      app: nginx-load-balancer
+  template:
+    metadata:
+      labels:
+        app: nginx-load-balancer
+    spec:
+      containers:
+      - name: nginx-load-balancer
+        image: "ghcr.io/cartosat/load-balancer-nginx:latest"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          readOnly: true
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: nginx-config

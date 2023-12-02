@@ -1,0 +1,23 @@
+version: "1"
+
+services:
+  birthday-tracker:
+    image: "ghcr.io/cartosat/vsw-birthday-tracker:latest"
+    networks:
+      - dsnl
+
+  nginx-load-balancer:
+    build:
+      context: load-balancer-nginx
+      dockerfile: Dockerfile
+    image: "ghcr.io/cartosat/load-balancer-nginx:latest"
+    ports:
+      - "80:80"
+    depends_on:
+      - birthday-tracker
+    networks:
+      - dsnl
+
+networks:
+  dsnl:
+    name: "dsnl"
