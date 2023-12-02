@@ -3,14 +3,22 @@ version: "1"
 services:
   birthday-tracker:
     image: "ghcr.io/cartosat/vsw-birthday-tracker:latest"
+    volumes:
+      - static:/workspace/assets
+      - media:/workspace/media
+    ports:
+      - "8000:8000"
     networks:
       - dsnl
 
-  nginx-load-balancer:
+  nginx-proxy-server:
     build:
-      context: load-balancer-nginx
+      context: proxy-server-nginx
       dockerfile: Dockerfile
-    image: "ghcr.io/cartosat/load-balancer-nginx:latest"
+    image: "ghcr.io/cartosat/nginx-proxy-server:latest"
+    volumes:
+      - static:/static
+      - media:/media
     ports:
       - "80:80"
     depends_on:
@@ -21,3 +29,7 @@ services:
 networks:
   dsnl:
     name: "dsnl"
+
+volumes:
+  static:
+  media:
