@@ -6,8 +6,6 @@ services:
     volumes:
       - static:/workspace/assets
       - media:/workspace/media
-    ports:
-      - "8000:8000"
     networks:
       - dsnl
 
