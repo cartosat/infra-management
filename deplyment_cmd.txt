@@ -1,0 +1,6 @@
+# To apply deployment and delete deployment.
+kubectl apply -f birthday-tracker-deployment.yaml
+kubectl delete -f birthday-tracker-deployment.yaml
+
+
+kubectl apply -f kubernetes-service.yaml

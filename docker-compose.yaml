@@ -1,0 +1,36 @@
+version: "1"
+
+services:
+  birthday-tracker:
+    image: "ghcr.io/cartosat/vsw-birthday-tracker:latest"
+    volumes:
+      # Mapping volume to directories inside birthday-tracker container.
+      - static:/workspace/assets
+      - media:/workspace/media
+    networks:
+      - dsnl
+
+  nginx-proxy-server:
+    build:
+      context: proxy-server-nginx
+      dockerfile: Dockerfile
+    image: "ghcr.io/cartosat/nginx-proxy-server:latest"
+    volumes:
+      # Sharing volumes between birthday-tracker and nginx-proxy-server.
+      - static:/static
+      - media:/media
+    ports:
+      - "80:80"
+    depends_on:
+      - birthday-tracker
+    networks:
+      - dsnl
+
+networks:
+  dsnl:
+    name: "dsnl"
+
+volumes:
+  # Created valume with specified name.
+  static:
+  media:
