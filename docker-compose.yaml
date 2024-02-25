@@ -10,12 +10,12 @@ services:
     networks:
       - dsnl
 
-  # vsw-portfolio:
-  #   image: "ghcr.io/cartosat/vsw-portfolio:latest"
-  #   networks:
-  #     - dsnl
-  #   depends_on:
-  #     - birthday-tracker
+  portfolio:
+    image: "ghcr.io/cartosat/vsw-portfolio:latest"
+    networks:
+      - dsnl
+    depends_on:
+      - birthday-tracker
 
   nginx-proxy-server:
     build:
@@ -31,7 +31,7 @@ services:
       - "443:443"
     depends_on:
       - birthday-tracker
-      # - vsw-portfolio
+      - portfolio
     networks:
       - dsnl
 
